@@ -1,12 +1,19 @@
 package arpitparekh.chatappproject.chat
 
 import android.annotation.SuppressLint
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import arpitparekh.chatappproject.R
 import arpitparekh.chatappproject.databinding.ActivityChatBinding
@@ -23,6 +30,7 @@ class ChatActivity : AppCompatActivity() {
     var senderRoom : String? =null
     var receiverRoom : String? =null
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
@@ -32,7 +40,6 @@ class ChatActivity : AppCompatActivity() {
         ref = FirebaseDatabase.getInstance().reference
 
         adapter = ChatAdapter(this,list)
-
 
 
         val intent = intent
@@ -49,6 +56,9 @@ class ChatActivity : AppCompatActivity() {
 
 
         binding.recyclerViewChat.adapter = adapter
+
+        // notification  // pending
+
 
         ref.child("chat").child(senderRoom!!).child("messages")
             .addValueEventListener(object : ValueEventListener{
